@@ -1,4 +1,4 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css');
+@import "./node_modules/github-markdown-css/github-markdown.css";
 @import url('https://fonts.googleapis.com/css?family=Exo+2:400,400i,500,500i,600,600i&subset=cyrillic');
 
 .markdown-body {
