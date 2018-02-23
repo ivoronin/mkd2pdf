@@ -10,10 +10,10 @@ $ npm i mkd2pdf
 ```
 mkd2pdf [--template template.ejs] [--css url] <input.md> <output.pdf>
 ```
- - *input*: Source file in Markdown format
- - *output*: Name of generated PDF file
- - *template*: Path for custom [EJS](http://ejs.co) template
- - *css*: URL for custom CSS file
+ - **input**: Source file in Markdown format
+ - **output**: Name of generated PDF file
+ - **template**: Path for custom [EJS](http://ejs.co) template
+ - **css**: URL for custom CSS file
 
 ## Example
 ![lorem ipsum](https://raw.githubusercontent.com/ivoronin/mkd2pdf/master/example/example.png)
