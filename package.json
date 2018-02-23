@@ -1,0 +1,29 @@
+{
+  "name": "mkd2pdf",
+  "version": "0.2.0",
+  "description": "Renders markdown text in PDF using Google Chrome headless mode",
+  "keywords": [
+    "md",
+    "markdown",
+    "pdf",
+    "md2pdf"
+  ],
+  "repository": "https://github.com/ivoronin/mkd2pdf",
+  "main": "index.js",
+  "bin": {
+    "mkd2pdf": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ilya Voronin <ivoronin@gmail.com> (https://github.com/ivoronin/)",
+  "license": "ISC",
+  "dependencies": {
+    "chrome-headless-render-pdf": "^1.5.1",
+    "ejs": "^2.5.7",
+    "file-url": "^2.0.2",
+    "showdown": "^1.8.6",
+    "tmp": "0.0.33",
+    "yargs-parser": "^9.0.2"
+  }
+}

@@ -1,0 +1,30 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css');
+@import url('https://fonts.googleapis.com/css?family=Exo+2:400,400i,500,500i,600,600i&subset=cyrillic');
+
+.markdown-body {
+    font-family: 'Exo 2', sans-serif;
+}
+
+@page {
+    size: A4;
+}
+
+@page {
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+}
+
+.markdown-body h1, h2, h3, h4, h5 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+
+.markdown-body h1:not(:first-of-type) {
+    page-break-before: always;
+}
+
+.markdown-body p {
+    text-align: justify;
+}
