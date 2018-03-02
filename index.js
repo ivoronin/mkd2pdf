@@ -5,23 +5,22 @@ const ejs = require('ejs')
 const tmp = require('tmp')
 const showdown = require('showdown'),
       converter = new showdown.Converter({ tables: true })
-const renderer =  require('chrome-headless-render-pdf')
 const fileUrl = require('file-url')
 const argv = require('yargs-parser')(process.argv.slice(2), {
     default: {
         template: path.join(__dirname, 'default.ejs'),
         css: fileUrl(path.join(__dirname, 'default.css')),
+        renderer: 'chrome',
     },
     configuration: {
         'parse-numbers': false,
     },
 })
 
-const rendererOptions = {
-    noMargins: true,
-    paperWidth: 8.27,
-    paperHeight: 11.7,
-    printLogs: true,
+const renderers = {
+    chrome: {
+        module: './renderers/chrome',
+    },
 }
 
 function exit(err) {
@@ -29,11 +28,12 @@ function exit(err) {
     process.exit(2)
 }
 
-if (argv._.length != 2) {
-    console.log('mkd2pdf [--template template.ejs] [--css url] <input.md> <output.pdf>')
+if (argv._.length != 2 || !Object.keys(renderers).includes(argv.renderer)) {
+    console.log('mkd2pdf [--template template.ejs] [--css url] [--renderer <chrome>] <input.md> <output.pdf>')
     process.exit(1)
 }
 
+const renderer = require(renderers[argv.renderer].module)
 var [input, output] = argv._
 
 fs.readFile(input, 'utf-8', (err, mdown) => {
@@ -45,8 +45,9 @@ fs.readFile(input, 'utf-8', (err, mdown) => {
             if (err) exit(err)
             fs.writeFile(fd, html, (err) => {
                 if (err) exit(err)
-                url = fileUrl(pathname)
-                renderer.generateSinglePdf(url, output,  rendererOptions)
+                renderer.render(pathname, output).catch((err) => {
+                    console.log(err)
+                })
             })
         })
     })
