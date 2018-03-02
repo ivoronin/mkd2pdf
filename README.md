@@ -1,5 +1,5 @@
 # mkd2pdf
-Renders markdown text in PDF using various renders.
+Renders markdown text in PDF using various renderers.
 
 ## Install
 ```
