@@ -3,8 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
 const tmp = require('tmp')
-const showdown = require('showdown'),
-      converter = new showdown.Converter({ tables: true })
+const showdown = require('showdown')
 const fileUrl = require('file-url')
 const argv = require('yargs-parser')(process.argv.slice(2), {
     default: {
@@ -39,6 +38,8 @@ if (argv._.length != 2 || !Object.keys(renderers).includes(argv.renderer)) {
 
 const renderer = require(renderers[argv.renderer].module)
 const [input, output] = argv._
+converter = new showdown.Converter()
+converter.setFlavor('github')
 
 fs.readFile(input, 'utf-8', (err, mdown) => {
     if (err) exit(err)
