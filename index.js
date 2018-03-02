@@ -38,11 +38,11 @@ if (argv._.length != 2 || !Object.keys(renderers).includes(argv.renderer)) {
 }
 
 const renderer = require(renderers[argv.renderer].module)
-var [input, output] = argv._
+const [input, output] = argv._
 
 fs.readFile(input, 'utf-8', (err, mdown) => {
     if (err) exit(err)
-    content = converter.makeHtml(mdown)
+    const content = converter.makeHtml(mdown)
     ejs.renderFile(argv.template, { content: content, css: argv.css, language: argv.language }, (err, html) => {
         if (err) exit(err)
         tmp.file({ postfix: '.html' }, (err, pathname, fd) => {
