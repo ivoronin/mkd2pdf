@@ -27,5 +27,8 @@
     "showdown": "^1.8.6",
     "tmp": "0.0.33",
     "yargs-parser": "^9.0.2"
+  },
+  "devDependencies": {
+    "prince": "^1.4.7"
   }
 }
