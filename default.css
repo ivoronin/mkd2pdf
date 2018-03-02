@@ -29,3 +29,9 @@
 .markdown-body p {
     text-align: justify;
 }
+
+/* Prince sets margin-left: 40pt */
+.markdown-body ul,
+.markdown-body ol {
+    margin-left: 0
+}
