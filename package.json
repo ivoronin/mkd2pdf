@@ -23,6 +23,7 @@
     "ejs": "^2.5.7",
     "file-url": "^2.0.2",
     "github-markdown-css": "^2.10.0",
+    "normalize.css": "^8.0.0",
     "showdown": "^1.8.6",
     "tmp": "0.0.33",
     "yargs-parser": "^9.0.2"
