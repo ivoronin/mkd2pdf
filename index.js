@@ -27,17 +27,8 @@ const argv = require('yargs')
     .strict(true)
     .argv
 
-const renderers = {
-    chrome: {
-        module: './renderers/chrome',
-    },
-    prince: {
-        module: './renderers/prince',
-    },
-}
-
-const renderer = require(renderers[argv.renderer].module)
-converter = new showdown.Converter()
+const renderer = require('./renderers/' + argv.renderer)
+const converter = new showdown.Converter()
 converter.setFlavor('github')
 
 return (async function () {
