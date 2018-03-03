@@ -5,10 +5,12 @@ const ejs = require('ejs')
 const tmp = require('tmp')
 const showdown = require('showdown')
 const fileUrl = require('file-url')
+const ap = p => path.join(__dirname, p),
+      apu = p => fileUrl(ap(p))
 const argv = require('yargs')
     .options({
-        't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: path.join(__dirname, 'default.ejs') },
-        'c': { alias: 'css', describe: 'URL for custom css file', normalize: true, default: fileUrl(path.join(__dirname, 'default.css')) },
+        't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: ap('default.ejs') },
+        'c': { alias: 'css', describe: 'URL for custom css file', normalize: true, default: apu('default.css') },
         'r': { alias: 'renderer', describe: 'HTML to PDF renderer', choices: ['chrome', 'prince'], default: 'chrome' },
         'l': { alias: 'language', describe: 'Input document language', string: true, default: 'en' },
     })
