@@ -3,7 +3,10 @@ Renders markdown text in PDF using various renderers.
 
 ## Prerequisites
  - Node.js ^9.0.0
- - Chrome >=65.0.0 or [Prince](https://www.princexml.com/) >=11.0
+ - One or more of the following software products:
+     - Chrome >=65.0.0
+     - [Prince](https://www.princexml.com/) >=11.0
+     - [WeasyPrint](http://weasyprint.org/) >=0.42.2
 
 ## Installing
 ```bash
@@ -33,6 +36,9 @@ Please refer to `mkd2pdf --help`
          - Supports automatic hyphenation (**please specify the correct language**).
      - Cons:
          - Adds a small logo to the first page of generated PDF files when used with free/non-commercial license.
+ - [WeasyPrint](http://weasyprint.org/):
+     - Pros:
+         - Supports automatic hyphenation (**please specify the correct language**).
 
 ## License
 This project is licensed under the MIT License
