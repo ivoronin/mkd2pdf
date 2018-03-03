@@ -29,6 +29,7 @@
     "yargs-parser": "^9.0.2"
   },
   "devDependencies": {
+    "phantom": "^4.0.12",
     "prince": "^1.4.7"
   }
 }

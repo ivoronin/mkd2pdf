@@ -9,7 +9,7 @@ $ npm i mkd2pdf
 ## Usage
 ```
 mkd2pdf [--template template.ejs] [--css url]
-        [--renderer <chrome|prince>]
+        [--renderer <chrome|prince|phantomjs>]
         [--language lang] <input.md> <output.pdf>
 ```
  - **input**: Source file in Markdown format

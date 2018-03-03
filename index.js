@@ -24,6 +24,9 @@ const renderers = {
     prince: {
         module: './renderers/prince',
     },
+    phantomjs: {
+        module: './renderers/phantomjs',
+    },
 }
 
 function exit(err) {
@@ -32,7 +35,7 @@ function exit(err) {
 }
 
 if (argv._.length != 2 || !Object.keys(renderers).includes(argv.renderer)) {
-    console.log('mkd2pdf [--template template.ejs] [--css url] [--renderer <chrome|prince>] [--language lang] <input.md> <output.pdf>')
+    console.log('mkd2pdf [--template template.ejs] [--css url] [--renderer <chrome|prince|phantomjs>] [--language lang] <input.md> <output.pdf>')
     process.exit(1)
 }
 
