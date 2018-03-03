@@ -1,4 +1,15 @@
-const chrome =  require('chrome-headless-render-pdf')
+var chrome
+try {
+    chrome = require('chrome-headless-render-pdf')
+} catch(err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+        console.log('Cannot find module "chrome-headless-render-pdf". Please install it with "npm install chrome-headless-render-pdf"')
+        process.exit(1)
+    } else {
+        throw err
+    }
+}
+
 const fileUrl = require('file-url')
 
 const options = {
