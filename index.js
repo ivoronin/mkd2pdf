@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
+const { promisify } = require('util')
 const ejs = require('ejs')
 const tmp = require('tmp')
 const showdown = require('showdown')
@@ -35,28 +36,21 @@ const renderers = {
     },
 }
 
-function exit(err) {
-    console.log('mkd2pdf: %s', err)
-    process.exit(2)
-}
-
 const renderer = require(renderers[argv.renderer].module)
 converter = new showdown.Converter()
 converter.setFlavor('github')
 
-fs.readFile(argv.input, 'utf-8', (err, mdown) => {
-    if (err) exit(err)
-    const content = converter.makeHtml(mdown)
-    ejs.renderFile(argv.template, { content: content, css: argv.css, language: argv.language }, (err, html) => {
-        if (err) exit(err)
-        tmp.file({ postfix: '.html' }, (err, pathname, fd) => {
-            if (err) exit(err)
-            fs.writeFile(fd, html, (err) => {
-                if (err) exit(err)
-                renderer.render(pathname, argv.output).catch((err) => {
-                    console.log(err)
-                })
-            })
-        })
-    })
-})
+return (async function () {
+    try {
+        const mdown = fs.readFileSync(argv.input, 'utf-8')
+        const content = converter.makeHtml(mdown)
+        const data = { content: content, css: argv.css, language: argv.language }
+        const html = await promisify(ejs.renderFile)(argv.template, data)
+        const tmpfile = tmp.fileSync({ postfix: '.html' })
+        fs.writeFileSync(tmpfile.fd, html)
+        await renderer.render(tmpfile.name, argv.output)
+    } catch(err) {
+        console.log('mkd2pdf:', err)
+        process.exit(1)
+    }
+})()
