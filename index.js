@@ -5,8 +5,10 @@ const { promisify } = require('util')
 const ejs = require('ejs')
 const tmp = require('tmp')
 const showdown = require('showdown')
+const yargs = require('yargs')
+
 const ap = p => path.join(__dirname, p)
-const argv = require('yargs')
+const argv = yargs
     .options({
         't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: ap('default.html.ejs') },
         'c': { alias: 'css', describe: 'Path to custom css file', normalize: true, default: ap('default.css.ejs') },
@@ -16,13 +18,16 @@ const argv = require('yargs')
     .usage('$0 <input> <output>', 'Renders markdown text documents in pdf', (yargs) => {
         yargs.positional('input', { describe: 'Path to input markdown document', type: 'string' })
         yargs.positional('output', { describe: 'Path to output pdf document', type: 'string' })
+        yargs.example('$0 input.md output.pdf', 'Converts \'input.md\' to \'output.pdf\'')
     })
     .help('h')
+    .alias('h', 'help')
     /* https://github.com/yargs/yargs/issues/1076 */
     .check((argv, opts) => {
         return argv._.length ? "Too many positional arguments were passed" : true
     })
     .strict(true)
+    .wrap(yargs.terminalWidth())
     .argv
 
 const renderer = require('./renderers/' + argv.renderer)
