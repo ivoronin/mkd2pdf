@@ -34,10 +34,10 @@ Please refer to `mkd2pdf --help` for more information.
 
 ## Supported Renderers
 | Renderer | Pros | Cons |
-|-|-|-|
+|---|---|---|
 | Google Chrome | <ul><li>Free</li> | <ul><li>Intermittent errors, long startup time</li><li>Page header and footer generation is disabled because of hardcoded contents (local file name, title and date)</li></ul> |
 | [Prince](https://www.princexml.com/) | <ul><li>Stable and fast</li><li>Supports automatic hyphenation</li></ul> | <ul><li>Adds a small logo to the first page of generated PDF files when used with free/non-commercial license.</li></ul> |
-| [WeasyPrint](http://weasyprint.org/) | <ul><li>Open Source</li><li>Supports automatic hyphenation</li></ul> | <ul><li>None known |
+| [WeasyPrint](http://weasyprint.org/) | <ul><li>Open Source</li><li>Supports automatic hyphenation</li></ul> | <ul><li>A few HTML rendering shortcomings</li></ul> |
 
 ## License
 This project is licensed under the MIT License
