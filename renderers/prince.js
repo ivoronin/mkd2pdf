@@ -18,3 +18,4 @@ function render(input, output) {
 }
 
 module.exports.render = render
+module.exports.css = ".markdown-body ul, .markdown-body ol { margin-left: 0 }"

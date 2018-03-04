@@ -5,13 +5,11 @@ const { promisify } = require('util')
 const ejs = require('ejs')
 const tmp = require('tmp')
 const showdown = require('showdown')
-const fileUrl = require('file-url')
-const ap = p => path.join(__dirname, p),
-      apu = p => fileUrl(ap(p))
+const ap = p => path.join(__dirname, p)
 const argv = require('yargs')
     .options({
-        't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: ap('default.ejs') },
-        'c': { alias: 'css', describe: 'URL for custom css file', normalize: true, default: apu('default.css') },
+        't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: ap('default.html.ejs') },
+        'c': { alias: 'css', describe: 'Path to custom css file', normalize: true, default: ap('default.css.ejs') },
         'r': { alias: 'renderer', describe: 'HTML to PDF renderer', choices: ['chrome', 'prince', 'weasyprint'], default: 'chrome' },
         'l': { alias: 'language', describe: 'Input document language', string: true, default: 'en' },
     })
@@ -33,10 +31,16 @@ converter.setFlavor('github')
 
 return (async function () {
     try {
-        const mdown = fs.readFileSync(argv.input, 'utf-8')
-        const content = converter.makeHtml(mdown)
-        const data = { content: content, css: argv.css, language: argv.language }
-        const html = await promisify(ejs.renderFile)(argv.template, data)
+        const markdown = fs.readFileSync(argv.input, 'utf-8')
+        const content = converter.makeHtml(markdown)
+        const style = await promisify(ejs.renderFile)(argv.css, {
+            renderer_css: renderer.css,
+        })
+        const html = await promisify(ejs.renderFile)(argv.template, {
+            content: content,
+            style: style,
+            language: argv.language,
+        })
         const tmpfile = tmp.fileSync({ postfix: '.html' })
         fs.writeFileSync(tmpfile.fd, html)
         await renderer.render(tmpfile.name, argv.output)
