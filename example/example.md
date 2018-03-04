@@ -13,7 +13,7 @@ if (rtf(hypermediaRecursion(xmp_nas_secondary, css))) {
 }
 ```
 
-Duis aute irure dolor in reprehenderit in voluptate velit. Et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque. Qui officia deserunt mollit anim id est laborum. Qui officia deserunt mollit anim id est laborum.
+Duis aute irure dolor in reprehenderit in voluptate velit. Et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque. Qui officia deserunt mollit anim id est laborum.
 
 1. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
 2. Do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -25,4 +25,3 @@ Eaque ipsa quae ab illo inventore veritatis et quasi. Corrupti quos dolores et q
 
 * Facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
 * Et harum quidem rerum facilis est et expedita distinctio.
-* Itaque earum rerum hic tenetur a sapiente delectus.
