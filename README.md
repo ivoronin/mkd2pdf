@@ -1,5 +1,6 @@
 # mkd2pdf
 Renders markdown text in PDF using various renderers.
+[![hit count](http://hits.dwyl.io/ivoronin/mkd2pdf.svg)](http://hits.dwyl.io/ivoronin/mkd2pdf) [![npm version](https://badge.fury.io/js/mkd2pdf.svg)](https://badge.fury.io/js/mkd2pdf)
 
 ## Prerequisites
  - Node.js >= 9.0.0
