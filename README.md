@@ -2,11 +2,11 @@
 Renders markdown text in PDF using various renderers.
 
 ## Prerequisites
- - Node.js ^9.0.0
+ - Node.js >= 9.0.0
  - One or more of the following software products:
-     - Chrome >=65.0.0
-     - [Prince](https://www.princexml.com/) >=11.0
-     - [WeasyPrint](http://weasyprint.org/) >=0.42.2
+     - Google Chrome >= 65.0.0
+     - [Prince](https://www.princexml.com/) >= 11.0
+     - [WeasyPrint](http://weasyprint.org/) >= 0.42.2
 
 ## Installing
 ```bash
@@ -24,21 +24,11 @@ Please refer to `mkd2pdf --help`
 ![lorem ipsum](https://raw.githubusercontent.com/ivoronin/mkd2pdf/master/example/example.png)
 
 ## Supported Renderers
- - Google Chrome (in headless mode):
-     - Pros:
-         - Free
-     - Cons:
-         - Intermittent errors, long startup time
-         - Page header and footer generation is disabled because of hardcoded contents (local file name, title and date)
- - [Prince](https://www.princexml.com/):
-     - Pros:
-         - Stable and fast
-         - Supports automatic hyphenation (**please specify the correct language**).
-     - Cons:
-         - Adds a small logo to the first page of generated PDF files when used with free/non-commercial license.
- - [WeasyPrint](http://weasyprint.org/):
-     - Pros:
-         - Supports automatic hyphenation (**please specify the correct language**).
+| Renderer | Pros | Cons |
+|-|-|-|
+| Google Chrome | <ul><li>Free</li> | <ul><li>Intermittent errors, long startup time</li><li>Page header and footer generation is disabled because of hardcoded contents (local file name, title and date)</li></ul> |
+| [Prince](https://www.princexml.com/) | <ul><li>Stable and fast</li><li>Supports automatic hyphenation</li></ul> | <ul><li>Adds a small logo to the first page of generated PDF files when used with free/non-commercial license.</li></ul> |
+| [WeasyPrint](http://weasyprint.org/) | <ul><li>Open Source</li><li>Supports automatic hyphenation</li></ul> | <ul><li>None known |
 
 ## License
 This project is licensed under the MIT License
