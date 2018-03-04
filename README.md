@@ -18,7 +18,10 @@ npm install prince
 ```
 
 ## Usage
-Please refer to `mkd2pdf --help`
+```bash
+mkd2pdf input.md output.pdf
+```
+Please refer to `mkd2pdf --help` for more information.
 
 ## Example
 ![lorem ipsum](https://raw.githubusercontent.com/ivoronin/mkd2pdf/master/example/example.png)
