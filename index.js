@@ -12,7 +12,7 @@ const argv = yargs
     .options({
         't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: ap('default.html.ejs') },
         'c': { alias: 'css', describe: 'Path to custom css file', normalize: true, default: ap('default.css.ejs') },
-        'r': { alias: 'renderer', describe: 'HTML to PDF renderer', choices: ['chrome', 'prince', 'weasyprint'], default: 'chrome' },
+        'r': { alias: 'renderer', describe: 'HTML to PDF renderer', choices: ['chrome', 'prince', 'weasyprint', 'wkhtmltopdf'], default: 'chrome' },
         'l': { alias: 'language', describe: 'Input document language', string: true, default: 'en' },
     })
     .usage('$0 <input> <output>', 'Renders markdown text documents in pdf', (yargs) => {
