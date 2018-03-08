@@ -30,12 +30,13 @@ const argv = yargs
     .wrap(yargs.terminalWidth())
     .argv
 
-const renderer = require('./renderers/' + argv.renderer)
+const renderer_module = require('./renderers/' + argv.renderer)
 const converter = new showdown.Converter()
 converter.setFlavor('github')
 
 return (async function () {
     try {
+        const renderer = new renderer_module.Renderer()
         const markdown = fs.readFileSync(argv.input, 'utf-8')
         const content = converter.makeHtml(markdown)
         const style = await promisify(ejs.renderFile)(argv.css, {
@@ -50,7 +51,7 @@ return (async function () {
         fs.writeFileSync(tmpfile.fd, html)
         await renderer.render(tmpfile.name, argv.output)
     } catch(err) {
-        console.log('mkd2pdf:', err)
+        console.log('mkd2pdf: %s', err)
         process.exit(1)
     }
 })()

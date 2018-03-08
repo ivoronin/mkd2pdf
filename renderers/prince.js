@@ -1,18 +1,15 @@
-const { execFile, execFileSync } = require('child_process')
-const { promisify } = require('util')
+const { ExternalRenderer } = require('./external')
 
-const prince_binary = 'prince'
-
-try {
-    execFileSync(prince_binary, ['--version'])
-} catch (err) {
-    console.log('Cannot execute "%s". Please install PrinceXML (https://www.princexml.com/)', prince_binary)
-    process.exit(1)
+class PrinceRenderer extends ExternalRenderer {
+    constructor() {
+        super()
+        this.command = 'prince'
+        this.info = 'PrinceXML (https://www.princexml.com/)'
+        this.css = '.markdown-body ul, .markdown-body ol { margin-left: 0 }'
+        this.get_check_args = () => ['--version']
+        this.get_render_args = (i,o) => [i, '-o', o]
+        this.check()
+    }
 }
 
-function render(input, output) {
-    return promisify(execFile)(prince_binary, [input, '-o', output])
-}
-
-exports.render = render
-module.exports.css = ".markdown-body ul, .markdown-body ol { margin-left: 0 }"
+module.exports.Renderer = PrinceRenderer

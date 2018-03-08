@@ -1,17 +1,14 @@
-const { execFile, execFileSync } = require('child_process')
-const { promisify } = require('util')
+const { ExternalRenderer } = require('./external')
 
-const wp_binary = 'weasyprint'
-
-try {
-    execFileSync(wp_binary, ['--version'])
-} catch (err) {
-    console.log('Cannot execute "%s". Please install WeasyPrint (http://weasyprint.org/)', wp_binary)
-    process.exit(1)
+class WeasyPrintRenderer extends ExternalRenderer {
+    constructor() {
+        super()
+        this.command = 'weasyprint'
+        this.info = 'WeasyPrint (http://weasyprint.org/)'
+        this.get_check_args = () => ['--version']
+        this.get_render_args = (i,o) => ['-f', 'pdf', i, o]
+        this.check()
+    }
 }
 
-function render(input, output) {
-    return promisify(execFile)(wp_binary, ['-f', 'pdf', input, output])
-}
-
-exports.render = render
+module.exports.Renderer = WeasyPrintRenderer

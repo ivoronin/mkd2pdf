@@ -18,9 +18,11 @@ const options = {
     paperHeight: 11.7,
 }
 
-function render(input, output) {
-    url = fileUrl(input)
-    return chrome.generateSinglePdf(url, output, options)
+class ChromeRenderer {
+    render(input, output) {
+        const url = fileUrl(input)
+        return chrome.generateSinglePdf(url, output, options)
+    }
 }
 
-module.exports.render = render
+module.exports.Renderer = ChromeRenderer
