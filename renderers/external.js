@@ -1,4 +1,4 @@
-const { execFileSync, execFile } = require('child_process')
+const { execFileSync } = require('child_process')
 const { format } = require('util')
 
 class ExternalRenderer {
