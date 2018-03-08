@@ -1,5 +1,5 @@
 const { execFileSync, execFile } = require('child_process')
-const { promisify, format } = require('util')
+const { format } = require('util')
 
 class ExternalRenderer {
     check() {
@@ -10,8 +10,8 @@ class ExternalRenderer {
         }
     }
 
-    render(input, output) {
-        return promisify(execFile)(this.command, this.get_render_args(input, output))
+    async render(input, output) {
+        return execFileSync(this.command, this.get_render_args(input, output))
     }
 }
 
