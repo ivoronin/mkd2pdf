@@ -16,14 +16,6 @@ mkdir mkd2pdf && cd mkd2pdf
 npm install mkd2pdf
 sudo npm link
 ```
-Optionally install [Prince](https://www.princexml.com/) renderer:
-```bash
-npm install prince
-```
-Optionally install [WeasyPrint](http://weasyprint.org/) renderer:
-```bash
-pip3 install weasyprint
-```
 
 ## Usage
 ```bash

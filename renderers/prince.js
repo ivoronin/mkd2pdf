@@ -1,21 +1,18 @@
-var Prince
+const { execFile, execFileSync } = require('child_process')
+const { promisify } = require('util')
+
+const prince_binary = 'prince'
+
 try {
-    Prince = require('prince')
-} catch(err) {
-    if (err.code === 'MODULE_NOT_FOUND') {
-        console.log('Cannot find module "prince". Please install it with "npm install prince"')
-        process.exit(1)
-    } else {
-        throw err
-    }
+    execFileSync(prince_binary, ['--version'])
+} catch (err) {
+    console.log('Cannot execute "%s". Please install PrinceXML (https://www.princexml.com/)', prince_binary)
+    process.exit(1)
 }
 
 function render(input, output) {
-    return Prince()
-        .inputs(input)
-        .output(output)
-        .execute()
+    return promisify(execFile)(prince_binary, [input, '-o', output])
 }
 
-module.exports.render = render
+exports.render = render
 module.exports.css = ".markdown-body ul, .markdown-body ol { margin-left: 0 }"
