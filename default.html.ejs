@@ -3,7 +3,11 @@
 <head>
 <meta charset="utf-8">
 <style>
-<%- style %>
+<%- include('default.css.ejs') %>
+<%- renderer_css -%>
+<% if (custom_css_path) { %>
+<%- include(custom_css_path) -%>
+<% } %>
 </style>
 </head>
 <body>
