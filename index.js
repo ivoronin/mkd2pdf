@@ -12,6 +12,7 @@ tmp.setGracefulCleanup()
 
 /* Supported renderers */
 const RENDERERS = ['chrome', 'prince', 'weasyprint']
+const DEFAULT_RENDERER = 'chrome'
 const DEFAULT_TEMPLATE = path.join(__dirname, 'default.html.ejs')
 
 /**
@@ -24,7 +25,7 @@ function parseArgs (args) {
         options({
             c: { alias: 'css', describe: 'Path to custom css', normalize: true },
             l: { alias: 'language', default: 'en', describe: 'Input document language', string: true },
-            r: { alias: 'renderer', choices: RENDERERS, default: 'chrome', describe: 'HTML to PDF renderer' },
+            r: { alias: 'renderer', choices: RENDERERS, default: DEFAULT_RENDERER, describe: 'HTML to PDF renderer' },
             t: { alias: 'template', default: DEFAULT_TEMPLATE, describe: 'Path to custom template', normalize: true },
         }).
         usage('$0 <input> <output>', 'Renders markdown text documents in pdf', (cargs) => {
@@ -99,6 +100,7 @@ if (require.main === module) {
 } else {
     /* Export functions for testing purposes */
     module.exports = {
+        DEFAULT_RENDERER,
         RENDERERS,
         createTempHTMLFileSync,
         getRenderer,
