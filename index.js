@@ -41,7 +41,17 @@ function parseArgs (args) {
         check((argv) => argv._.length ? 'Too many positional arguments were passed' : true).
         strict(true).
         wrap(yargs.terminalWidth())
-    return args ? parser.parse(args) : parser.argv
+    if (args) {
+        return parser.
+            fail((msg, err) => {
+                if (err) {
+                    throw err
+                }
+                throw Error(msg)
+            }).
+            parse(args)
+    }
+    return parser.argv
 }
 
 /**
