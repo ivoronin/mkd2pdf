@@ -94,7 +94,7 @@ if (require.main === module) {
             await main()
         } catch (err) {
             console.error('mkd2pdf: %s', err) // eslint-disable-line no-console
-            process.exit(1) // eslint-disable-line no-process-exit, no-magic-numbers
+            process.exit(1) // eslint-disable-line no-process-exit,no-magic-numbers
         }
     })()
 } else {
