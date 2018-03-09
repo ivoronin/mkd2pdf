@@ -1,6 +1,6 @@
 {
   "name": "mkd2pdf",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Renders markdown text in PDF using Google Chrome headless mode",
   "keywords": [
     "md",
