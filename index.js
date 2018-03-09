@@ -17,7 +17,7 @@ const DEFAULT_TEMPLATE = path.join(__dirname, 'default.html.ejs')
 
 /**
  * Parses command line arguments
- * @param {array} args - Arguments array to use instead of process.argv
+ * @param {array} args - Arguments array to use instead of process.argv, used by tests
  * @returns {object} Parsed arguments
  */
 function parseArgs (args) {
@@ -42,6 +42,7 @@ function parseArgs (args) {
         strict(true).
         wrap(yargs.terminalWidth())
     if (args) {
+        /* This codepath is reachable only by tests */
         return parser.
             fail((msg, err) => {
                 if (err) {
@@ -77,7 +78,7 @@ function createTempHTMLFileSync (html) {
 }
 
 /**
- * @param {array} args - Arguments array to use instead of process.argv
+ * @param {array} args - Arguments array to use instead of process.argv, used by tests
  * @returns {undefined}
  */
 async function main (args) {
