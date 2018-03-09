@@ -12,7 +12,7 @@ class ExternalRenderer {
     }
 
     async render (input, output) { // eslint-disable-line require-await
-        return execFileSync(this.command, this.getRenderArgs(input, output))
+        return execFileSync(this.command, this.getRenderArgs(input, output), { stdio: 'ignore' })
     }
 }
 
