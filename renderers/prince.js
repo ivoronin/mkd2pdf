@@ -1,4 +1,4 @@
-const { ExternalRenderer } = require('./external')
+const ExternalRenderer = require('./external')
 
 class PrinceRenderer extends ExternalRenderer {
     constructor() {
@@ -12,4 +12,4 @@ class PrinceRenderer extends ExternalRenderer {
     }
 }
 
-module.exports.Renderer = PrinceRenderer
+module.exports = PrinceRenderer

@@ -15,4 +15,4 @@ class ExternalRenderer {
     }
 }
 
-module.exports.ExternalRenderer = ExternalRenderer
+module.exports = ExternalRenderer

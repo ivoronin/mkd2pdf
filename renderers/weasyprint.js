@@ -1,4 +1,4 @@
-const { ExternalRenderer } = require('./external')
+const ExternalRenderer = require('./external')
 
 class WeasyPrintRenderer extends ExternalRenderer {
     constructor() {
@@ -11,4 +11,4 @@ class WeasyPrintRenderer extends ExternalRenderer {
     }
 }
 
-module.exports.Renderer = WeasyPrintRenderer
+module.exports = WeasyPrintRenderer

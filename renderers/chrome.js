@@ -25,4 +25,4 @@ class ChromeRenderer {
     }
 }
 
-module.exports.Renderer = ChromeRenderer
+module.exports = ChromeRenderer

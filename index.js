@@ -30,13 +30,13 @@ const argv = yargs
     .wrap(yargs.terminalWidth())
     .argv
 
-const renderer_module = require('./renderers/' + argv.renderer)
+const Renderer = require('./renderers/' + argv.renderer)
 const converter = new showdown.Converter()
 converter.setFlavor('github')
 
 return (async function () {
     try {
-        const renderer = new renderer_module.Renderer()
+        const renderer = new Renderer()
         const markdown = fs.readFileSync(argv.input, 'utf-8')
         const content = converter.makeHtml(markdown)
         const style = await promisify(ejs.renderFile)(argv.css, {
