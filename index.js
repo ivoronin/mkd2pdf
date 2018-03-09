@@ -1,53 +1,55 @@
 #!/usr/bin/env node
 'use strict'
-const fs = require('fs')
-const path = require('path')
-const { promisify } = require('util')
-const ejs = require('ejs')
-const tmp = require('tmp')
-const showdown = require('showdown')
-const yargs = require('yargs')
-
-const renderers = ['chrome', 'prince', 'weasyprint']
+const ejs = require('ejs'),
+    fs = require('fs'),
+    path = require('path'),
+    showdown = require('showdown'),
+    tmp = require('tmp'),
+    yargs = require('yargs'),
+    { promisify } = require('util')
 
 tmp.setGracefulCleanup()
+
+/* Supported renderers */
+const RENDERERS = ['chrome', 'prince', 'weasyprint']
+const DEFAULT_TEMPLATE = path.join(__dirname, 'default.html.ejs')
 
 /**
  * Parses command line arguments
  * @param {array} args - Arguments array to use instead of process.argv
  * @returns {object} Parsed arguments
  */
-function parse_args(args) {
-    /* path to absolute path */
-    const ap = p => path.join(__dirname, p)
-    const parser = yargs
-        .options({
-            't': { alias: 'template', describe: 'Path to custom template file', normalize: true, default: ap('default.html.ejs') },
-            'c': { alias: 'css', describe: 'Path to custom css file', normalize: true },
-            'r': { alias: 'renderer', describe: 'HTML to PDF renderer', choices: renderers, default: 'chrome' },
-            'l': { alias: 'language', describe: 'Input document language', string: true, default: 'en' },
-        })
-        .usage('$0 <input> <output>', 'Renders markdown text documents in pdf', (yargs) => {
-            yargs.positional('input', { describe: 'Path to input markdown document', type: 'string' })
-            yargs.positional('output', { describe: 'Path to output pdf document', type: 'string' })
-            yargs.example('$0 input.md output.pdf', 'Converts "input.md" to "output.pdf"')
-        })
-        .help('h')
-        .alias('h', 'help')
+function parseArgs (args) {
+    const parser = yargs.
+        options({
+            c: { alias: 'css', describe: 'Path to custom css', normalize: true },
+            l: { alias: 'language', default: 'en', describe: 'Input document language', string: true },
+            r: { alias: 'renderer', choices: RENDERERS, default: 'chrome', describe: 'HTML to PDF renderer' },
+            t: { alias: 'template', default: DEFAULT_TEMPLATE, describe: 'Path to custom template', normalize: true },
+        }).
+        usage('$0 <input> <output>', 'Renders markdown text documents in pdf', (cargs) => {
+            cargs.positional('input', { describe: 'Path to input markdown document', type: 'string' })
+            cargs.positional('output', { describe: 'Path to output pdf document', type: 'string' })
+            cargs.example('$0 input.md output.pdf', 'Converts "input.md" to "output.pdf"')
+        }).
+        help('h').
+        alias('h', 'help').
+        // eslint-disable-next-line lines-around-comment,no-inline-comments
         /* https://github.com/yargs/yargs/issues/1076 */
-        .check((argv, opts) => argv._.length ? 'Too many positional arguments were passed' : true)
-        .strict(true)
-        .wrap(yargs.terminalWidth())
+        // eslint-disable-next-line no-confusing-arrow
+        check((argv) => argv._.length ? 'Too many positional arguments were passed' : true).
+        strict(true).
+        wrap(yargs.terminalWidth())
     return args ? parser.parse(args) : parser.argv
 }
 
 /**
  * Imports renderer module
- * @param {string} renderer_name - Renderer module name
+ * @param {string} rendererName - Renderer module name
  * @returns {object} Renderer instance
  */
-function getRenderer(renderer_name) {
-    const Renderer = require('./renderers/' + renderer_name)
+function getRenderer (rendererName) {
+    const Renderer = require(`./renderers/${rendererName}`) // eslint-disable-line global-require
     return new Renderer()
 }
 
@@ -56,8 +58,8 @@ function getRenderer(renderer_name) {
  * @param {string} html - HTML content
  * @returns {string} File pathname
  */
-function createTempHTMLFileSync(html) {
-    /* file will be deleted on exit */
+function createTempHTMLFileSync (html) {
+    /* File will be deleted on exit */
     const tmpfile = tmp.fileSync({ postfix: '.html' })
     fs.writeFileSync(tmpfile.fd, html)
     return tmpfile.name
@@ -65,19 +67,20 @@ function createTempHTMLFileSync(html) {
 
 /**
  * @param {array} args - Arguments array to use instead of process.argv
+ * @returns {undefined}
  */
 async function main (args) {
-    const argv = parse_args(args)
+    const argv = parseArgs(args)
     const renderer = getRenderer(argv.renderer)
     const converter = new showdown.Converter()
     converter.setFlavor('github')
     const markdown = fs.readFileSync(argv.input, 'utf-8')
     const content = converter.makeHtml(markdown)
     const html = await promisify(ejs.renderFile)(argv.template, {
-        content: content,
+        content,
+        custom_css_path: argv.css, // eslint-disable-line camelcase
         language: argv.language,
-        renderer_css: renderer.css,
-        custom_css_path: argv.css,
+        renderer_css: renderer.css, // eslint-disable-line camelcase
     })
     const tmpfile = createTempHTMLFileSync(html)
     await renderer.render(tmpfile, argv.output)
@@ -88,9 +91,18 @@ if (require.main === module) {
     (async () => {
         try {
             await main()
-        } catch(err) {
-            console.log('mkd2pdf: %s', err)
-            process.exit(1)
+        } catch (err) {
+            console.error('mkd2pdf: %s', err) // eslint-disable-line no-console
+            process.exit(1) // eslint-disable-line no-process-exit, no-magic-numbers
         }
     })()
+} else {
+    /* Export functions for testing purposes */
+    module.exports = {
+        RENDERERS,
+        createTempHTMLFileSync,
+        getRenderer,
+        main,
+        parseArgs,
+    }
 }

@@ -1,13 +1,14 @@
+'use strict'
 const ExternalRenderer = require('./external')
 
 class PrinceRenderer extends ExternalRenderer {
-    constructor() {
+    constructor () {
         super()
         this.command = 'prince'
         this.info = 'PrinceXML (https://www.princexml.com/)'
         this.css = '.markdown-body ul, .markdown-body ol { margin-left: 0 }'
-        this.get_check_args = () => ['--version']
-        this.get_render_args = (i,o) => [i, '-o', o]
+        this.getCheckArgs = () => ['--version']
+        this.getRenderArgs = (i, o) => [i, '-o', o] // eslint-disable-line id-length
         this.check()
     }
 }

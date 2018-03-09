@@ -14,6 +14,7 @@
     "mkd2pdf": "./index.js"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ilya Voronin <ivoronin@gmail.com> (https://github.com/ivoronin/)",
@@ -27,5 +28,95 @@
     "showdown": "^1.8.6",
     "tmp": "0.0.33",
     "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2"
+  },
+  "eslintConfig": {
+    "extends": "eslint:all",
+    "env": {
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "rules": {
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ],
+      "valid-jsdoc": [
+        "error",
+        {
+          "requireReturnType": true,
+          "requireParamDescription": true,
+          "requireReturnDescription": true
+        }
+      ],
+      "array-element-newline": [
+        "error",
+        {
+          "multiline": true
+        }
+      ],
+      "max-len": [
+        "error",
+        {
+          "code": 120
+        }
+      ],
+      "func-style": "off",
+      "padded-blocks": [
+        "error",
+        "never"
+      ],
+      "lines-around-comment": [
+        "error",
+        {
+          "allowBlockStart": true
+        }
+      ],
+      "quote-props": [
+        "error",
+        "consistent-as-needed"
+      ],
+      "id-length": [
+        "error",
+        {
+          "properties": "never"
+        }
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "object-property-newline": [
+        "error",
+        {
+          "allowAllPropertiesOnSameLine": true
+        }
+      ],
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ],
+      "no-confusing-arrow": [
+        "error",
+        {
+          "allowParens": true
+        }
+      ],
+      "no-ternary": "off",
+      "multiline-ternary": [
+        "error",
+        "always-multiline"
+      ],
+      "no-sync": "off",
+      "one-var": "off"
+    }
   }
 }
