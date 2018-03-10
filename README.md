@@ -34,6 +34,7 @@ Please refer to `mkd2pdf --help` for more information.
 | [WeasyPrint](http://weasyprint.org/) | <ul><li>Open Source</li><li>Supports automatic hyphenation</li></ul> | <ul><li>A few HTML rendering shortcomings</li></ul> |
 
 ## Metadata mapping
+You can specify metadata in markdown document, see [example.md](https://github.com/ivoronin/mkd2pdf/blob/master/example/example.md) for an example.
 | PDF | Prince | WeasyPrint |
 |---|---|---|
 | Title | title | title |
