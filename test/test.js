@@ -4,7 +4,8 @@
 'use strict'
 const { expect } = require('chai'),
     fs = require('fs'),
-    tmp = require('tmp')
+    tmp = require('tmp'),
+    { execFileSync } = require('child_process')
 const { DEFAULT_RENDERER, RENDERERS, getRenderer, main, parseArgs } = require('../index')
 
 const split = (string) => string.split(' ')
@@ -22,6 +23,9 @@ describe('parseArgs', function () {
         expect(argv.template).to.equal('custom.html.ejs')
         expect(argv.input).to.equal('input.md')
         expect(argv.output).to.equal('output.pdf')
+    })
+    it('should raise an exception when wrong option is specified', function () {
+        expect(() => parseArgs(split('-z wrong'))).to.throw()
     })
     it('should raise an exception when unsupported renderer is specified', function () {
         expect(() => parseArgs(split('-r unsupported input.md output.pdf'))).to.throw()
@@ -48,14 +52,23 @@ describe('main', function () {
     RENDERERS.forEach(function (renderer) {
         describe(renderer, function () {
             this.timeout(5000) // eslint-disable-line no-magic-numbers,no-invalid-this
+            const output = tmp.tmpNameSync({ postfix: '.pdf' })
+            after('unlink temp files', function () {
+                fs.unlinkSync(output)
+            })
+            it('should not raise an exception while generating pdf documents', function (done) {
+                main(['-r', renderer, './example/example.md', output]).
+                    then(() => done(), (err) => done(err))
+            })
             const EXPECTED_SIZE = 40960
             const DELTA = 5120
-            it(`should generate pdf documents between ${EXPECTED_SIZE}±${DELTA} bytes in size`, async function () {
-                const output = tmp.tmpNameSync({ postfix: '.pdf' })
-                await main(['-r', renderer, './example/example.md', output])
+            it(`generated pdf documents should be between ${EXPECTED_SIZE}±${DELTA} bytes in size`, function () {
                 const stats = fs.statSync(output)
                 expect(stats.size).to.be.closeTo(EXPECTED_SIZE, DELTA)
-                fs.unlinkSync(output)
+            })
+            it('generated pdf documents should be recognized by file util', function () {
+                const stdout = execFileSync('file', ['-b', output], { encoding: 'utf-8' })
+                expect(stdout).to.match(/^PDF document, version 1\.\d/)
             })
         })
     })
