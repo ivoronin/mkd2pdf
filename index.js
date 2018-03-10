@@ -12,8 +12,11 @@ tmp.setGracefulCleanup()
 
 /* Supported renderers */
 const RENDERERS = ['chrome', 'prince', 'weasyprint']
+
+/* Defaults */
 const DEFAULT_RENDERER = 'chrome'
 const DEFAULT_TEMPLATE = path.join(__dirname, 'default.html.ejs')
+const DEFAULT_LANGUAGE = 'en'
 
 /**
  * Parses command line arguments
@@ -24,7 +27,7 @@ function parseArgs (args) {
     const parser = yargs.
         options({
             c: { alias: 'css', describe: 'Path to custom css', normalize: true },
-            l: { alias: 'language', default: 'en', describe: 'Input document language', string: true },
+            l: { alias: 'language', default: DEFAULT_LANGUAGE, describe: 'Input document language', string: true },
             r: { alias: 'renderer', choices: RENDERERS, default: DEFAULT_RENDERER, describe: 'HTML to PDF renderer' },
             t: { alias: 'template', default: DEFAULT_TEMPLATE, describe: 'Path to custom template', normalize: true },
         }).
