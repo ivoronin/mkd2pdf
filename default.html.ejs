@@ -2,6 +2,10 @@
 <html lang="<%- language -%>">
 <head>
 <meta charset="utf-8">
+<% for (const [key, value] of Object.entries(metadata)) { -%>
+<meta name="<%- key -%>" content="<%- value -%>"/>
+<% } -%>
+<title><%- title -%></title>
 <style>
 <%- include('default.css.ejs') %>
 <%- renderer_css -%>

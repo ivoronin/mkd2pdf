@@ -66,21 +66,54 @@ function getRenderer (rendererName) {
 }
 
 /**
+ * Metadata handling
+ * https://www.princexml.com/doc/pdf-metadata/
+ * https://github.com/Kozea/WeasyPrint/blob/master/weasyprint/document.py (/class DocumentMetadata)
+ * @param {object} converter - Showdown converter instance
+ * @returns {object} Title, Metadata
+ */
+function getMarkdownMetadata (converter) {
+    const hasKey = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key)
+    const metadata = converter.getMetadata()
+    const { title } = metadata
+    if (hasKey(metadata, 'title')) {
+        delete metadata.title
+    }
+    if (!hasKey(metadata, 'generator')) {
+        metadata.generator = 'mkd2pdf'
+    }
+    return { metadata, title }
+}
+
+/**
+ * Converts markdown to html
+ * @param {string} markdown - Markdown document
+ * @returns {object} - Converted document
+ */
+function convertMarkdownToHTML (markdown) {
+    const converter = new showdown.Converter({ metadata: true })
+    converter.setFlavor('github')
+    const content = converter.makeHtml(markdown)
+    const { title, metadata } = getMarkdownMetadata(converter)
+    return { content, metadata, title }
+}
+
+/**
  * @param {array} args - Arguments array to use instead of process.argv, used by tests
  * @returns {Promise} Promise
  */
 async function main (args) {
     const argv = parseArgs(args)
     const renderer = getRenderer(argv.renderer)
-    const converter = new showdown.Converter()
-    converter.setFlavor('github')
     const markdown = fs.readFileSync(argv.input, 'utf-8')
-    const content = converter.makeHtml(markdown)
+    const document = convertMarkdownToHTML(markdown)
     const html = await promisify(ejs.renderFile)(argv.template, {
-        content,
+        content: document.content,
         custom_css_path: argv.css, // eslint-disable-line camelcase
         language: argv.language,
+        metadata: document.metadata,
         renderer_css: renderer.css, // eslint-disable-line camelcase
+        title: document.title,
     })
     const tmpfile = tmp.fileSync({ postfix: '.html' })
     fs.writeFileSync(tmpfile.fd, html)

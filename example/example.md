@@ -1,3 +1,11 @@
+---
+title: Example document
+subject: Markdown demo (prince)
+description: Markdown demo (weasyprint)
+author: John Doe
+keywords: lorem, ipsum
+---
+
 # Cerealia vocum
 
 Non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Totam rem aperiam. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
