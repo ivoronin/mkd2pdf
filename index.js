@@ -79,7 +79,7 @@ function createTempHTMLFileSync (html) {
 
 /**
  * @param {array} args - Arguments array to use instead of process.argv, used by tests
- * @returns {undefined}
+ * @returns {Promise} Promise
  */
 async function main (args) {
     const argv = parseArgs(args)
