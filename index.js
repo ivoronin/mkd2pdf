@@ -66,18 +66,6 @@ function getRenderer (rendererName) {
 }
 
 /**
- * Synchronously makes a new temporary HTML file and writes content into it.
- * @param {string} html - HTML content
- * @returns {string} File pathname
- */
-function createTempHTMLFileSync (html) {
-    /* File will be deleted on exit */
-    const tmpfile = tmp.fileSync({ postfix: '.html' })
-    fs.writeFileSync(tmpfile.fd, html)
-    return tmpfile.name
-}
-
-/**
  * @param {array} args - Arguments array to use instead of process.argv, used by tests
  * @returns {Promise} Promise
  */
@@ -94,8 +82,9 @@ async function main (args) {
         language: argv.language,
         renderer_css: renderer.css, // eslint-disable-line camelcase
     })
-    const tmpfile = createTempHTMLFileSync(html)
-    await renderer.render(tmpfile, argv.output)
+    const tmpfile = tmp.fileSync({ postfix: '.html' })
+    fs.writeFileSync(tmpfile.fd, html)
+    await renderer.render(tmpfile.name, argv.output)
 }
 
 /* Detect if called directly */
@@ -113,7 +102,6 @@ if (require.main === module) {
     module.exports = {
         DEFAULT_RENDERER,
         RENDERERS,
-        createTempHTMLFileSync,
         getRenderer,
         main,
         parseArgs,
