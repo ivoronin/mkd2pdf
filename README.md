@@ -35,6 +35,7 @@ Please refer to `mkd2pdf --help` for more information.
 
 ## Metadata mapping
 You can specify metadata in markdown document, see [example.md](https://github.com/ivoronin/mkd2pdf/blob/master/example/example.md) for an example.
+
 | PDF | Prince | WeasyPrint |
 |---|---|---|
 | Title | title | title |
