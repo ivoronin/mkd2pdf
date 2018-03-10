@@ -33,5 +33,14 @@ Please refer to `mkd2pdf --help` for more information.
 | [Prince](https://www.princexml.com/) | <ul><li>Stable and fast</li><li>Supports automatic hyphenation</li></ul> | <ul><li>Adds a small logo to the first page of generated PDF files when used with free/non-commercial license.</li></ul> |
 | [WeasyPrint](http://weasyprint.org/) | <ul><li>Open Source</li><li>Supports automatic hyphenation</li></ul> | <ul><li>A few HTML rendering shortcomings</li></ul> |
 
+## Metadata mapping
+| PDF | Prince | WeasyPrint |
+|---|---|---|
+| Title | title | title |
+| Author | author | author |
+| Subject | subject | description |
+| Keywords | keywords | keywords |
+| Creator | generator | generator |
+
 ## License
 This project is licensed under the MIT License
