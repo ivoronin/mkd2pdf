@@ -6,7 +6,7 @@ const { expect } = require('chai'),
     fs = require('fs'),
     tmp = require('tmp'),
     { execFileSync } = require('child_process')
-const { DEFAULT_RENDERER, RENDERERS, getRenderer, main, parseArgs } = require('../index')
+const { DEFAULT_RENDERER, RENDERERS, convertMarkdownToHTML, getRenderer, main, parseArgs } = require('../index')
 
 const split = (string) => string.split(' ')
 describe('parseArgs', function () {
@@ -45,6 +45,26 @@ describe('getRenderer', function () {
                 expect(() => getRenderer(renderer)).to.not.throw()
             })
         })
+    })
+})
+
+describe('convertMarkdownToHTML', function () {
+    const MARKDOWN_TEXT =
+        '---\n' +
+        'title: lorem\n' +
+        'description: ipsum\n' +
+        '---\n' +
+        '\n' +
+        '# Dolor sit ameta\n' +
+        'consectetuer adipiscing elit\n'
+    const EXPECTED_CONTENT = '<h1 id="dolor-sit-ameta">Dolor sit ameta</h1>\n<p>consectetuer adipiscing elit</p>'
+    const EXPECTED_TITLE = 'lorem'
+    const EXPECTED_METADATA = { description: 'ipsum', generator: 'mkd2pdf' }
+    it('converted document should match expected one', function () {
+        const document = convertMarkdownToHTML(MARKDOWN_TEXT)
+        expect(document.content).to.equal(EXPECTED_CONTENT)
+        expect(document.title).to.equal(EXPECTED_TITLE)
+        expect(document.metadata).to.deep.equal(EXPECTED_METADATA)
     })
 })
 

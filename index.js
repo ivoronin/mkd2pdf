@@ -135,6 +135,7 @@ if (require.main === module) {
     module.exports = {
         DEFAULT_RENDERER,
         RENDERERS,
+        convertMarkdownToHTML,
         getRenderer,
         main,
         parseArgs,
