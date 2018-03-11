@@ -136,7 +136,9 @@ if (require.main === module) {
 } else {
     /* Export functions for testing purposes */
     module.exports = {
+        DEFAULT_LANGUAGE,
         DEFAULT_RENDERER,
+        DEFAULT_TEMPLATE,
         RENDERERS,
         convertMarkdownToHTML,
         getRenderer,

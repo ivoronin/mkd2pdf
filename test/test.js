@@ -6,35 +6,53 @@ const { expect } = require('chai'),
     fs = require('fs'),
     tmp = require('tmp'),
     { execFileSync } = require('child_process')
-const { DEFAULT_RENDERER, RENDERERS, convertMarkdownToHTML, getRenderer, main, parseArgs } = require('../index')
+const {
+    DEFAULT_LANGUAGE, DEFAULT_RENDERER, DEFAULT_TEMPLATE, RENDERERS,
+    convertMarkdownToHTML, getRenderer, main, parseArgs,
+} = require('../index')
 
 const split = (string) => string.split(' ')
 describe('parseArgs', function () {
-    const ALL_OPTIONS = split(`-c custom.css.ejs -l ru -r ${DEFAULT_RENDERER}` +
-        ' -t custom.html.ejs input.md output.pdf')
+    const EXPECTED_CSS = 'custom.css.ejs',
+        EXPECTED_INPUT = 'input.md',
+        EXPECTED_LANGUAGE = 'ru',
+        EXPECTED_OUTPUT = 'output.pdf',
+        EXPECTED_RENDERER = 'prince',
+        EXPECTED_TEMPLATE = 'custom.html.ejs'
+    const ARGUMENTS = split(`-c ${EXPECTED_CSS} -l ${EXPECTED_LANGUAGE} -r ${EXPECTED_RENDERER}` +
+        ` -t ${EXPECTED_TEMPLATE} ${EXPECTED_INPUT} ${EXPECTED_OUTPUT}`)
     it('should not raise an exception when correct arguments are specified', function () {
-        expect(() => parseArgs(ALL_OPTIONS)).to.not.throw()
+        expect(() => parseArgs(ARGUMENTS)).to.not.throw()
     })
-    it('should return argv object with correct values', function () {
-        const argv = parseArgs(ALL_OPTIONS)
-        expect(argv.css).to.equal('custom.css.ejs')
-        expect(argv.language).to.equal('ru')
+    it('should return argv object with expected values', function () {
+        const argv = parseArgs(ARGUMENTS)
+        expect(argv.css).to.equal(EXPECTED_CSS)
+        expect(argv.language).to.equal(EXPECTED_LANGUAGE)
+        expect(argv.renderer).to.equal(EXPECTED_RENDERER)
+        expect(argv.template).to.equal(EXPECTED_TEMPLATE)
+        expect(argv.input).to.equal(EXPECTED_INPUT)
+        expect(argv.output).to.equal(EXPECTED_OUTPUT)
+    })
+    it('should return argv object with expected default values', function () {
+        const argv = parseArgs(split(`${EXPECTED_INPUT} ${EXPECTED_OUTPUT}`))
+        expect(argv.css).to.be.an('undefined')
+        expect(argv.language).to.equal(DEFAULT_LANGUAGE)
         expect(argv.renderer).to.equal(DEFAULT_RENDERER)
-        expect(argv.template).to.equal('custom.html.ejs')
-        expect(argv.input).to.equal('input.md')
-        expect(argv.output).to.equal('output.pdf')
+        expect(argv.template).to.equal(DEFAULT_TEMPLATE)
+        expect(argv.input).to.equal(EXPECTED_INPUT)
+        expect(argv.output).to.equal(EXPECTED_OUTPUT)
     })
     it('should raise an exception when wrong option is specified', function () {
         expect(() => parseArgs(split('-z wrong'))).to.throw()
     })
     it('should raise an exception when unsupported renderer is specified', function () {
-        expect(() => parseArgs(split('-r unsupported input.md output.pdf'))).to.throw()
+        expect(() => parseArgs(split(`-r unsupported ${EXPECTED_INPUT} ${EXPECTED_OUTPUT}`))).to.throw()
     })
     it('should raise an exception when wrong number of positional arguments is specified', function () {
         expect(() => parseArgs(split(''))).to.throw()
         expect(() => parseArgs(split(`-r ${DEFAULT_RENDERER}`))).to.throw()
-        expect(() => parseArgs(split('input.md'))).to.throw()
-        expect(() => parseArgs(split('input.md output.pdf extra.arg'))).to.throw()
+        expect(() => parseArgs(split(`${EXPECTED_INPUT}`))).to.throw()
+        expect(() => parseArgs(split(`${EXPECTED_INPUT} ${EXPECTED_OUTPUT} extra.arg`))).to.throw()
     })
 })
 
@@ -61,6 +79,7 @@ describe('convertMarkdownToHTML', function () {
     const EXPECTED_CONTENT = '<h1 id="dolor-sit-ameta">Dolor sit ameta</h1>\n<p>consectetuer adipiscing elit</p>'
     const EXPECTED_TITLE = 'lorem'
     const EXPECTED_METADATA = { description: 'ipsum', generator: 'mkd2pdf' }
+    const EXPECTED_DEFAULT_METADATA = { generator: 'mkd2pdf' }
     it('converted document with metadata should match expected one', function () {
         const document = convertMarkdownToHTML(MARKDOWN_METADATA + MARKDOWN_TEXT)
         expect(document.content).to.equal(EXPECTED_CONTENT)
@@ -71,7 +90,7 @@ describe('convertMarkdownToHTML', function () {
         const document = convertMarkdownToHTML(MARKDOWN_TEXT)
         expect(document.content).to.equal(EXPECTED_CONTENT)
         expect(document.title).to.be.an('undefined')
-        expect(document.metadata).to.deep.equal({ generator: 'mkd2pdf' })
+        expect(document.metadata).to.deep.equal(EXPECTED_DEFAULT_METADATA)
     })
 })
 
