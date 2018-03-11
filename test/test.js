@@ -49,22 +49,29 @@ describe('getRenderer', function () {
 })
 
 describe('convertMarkdownToHTML', function () {
-    const MARKDOWN_TEXT =
+    const MARKDOWN_METADATA =
         '---\n' +
         'title: lorem\n' +
         'description: ipsum\n' +
         '---\n' +
-        '\n' +
+        '\n'
+    const MARKDOWN_TEXT =
         '# Dolor sit ameta\n' +
         'consectetuer adipiscing elit\n'
     const EXPECTED_CONTENT = '<h1 id="dolor-sit-ameta">Dolor sit ameta</h1>\n<p>consectetuer adipiscing elit</p>'
     const EXPECTED_TITLE = 'lorem'
     const EXPECTED_METADATA = { description: 'ipsum', generator: 'mkd2pdf' }
-    it('converted document should match expected one', function () {
-        const document = convertMarkdownToHTML(MARKDOWN_TEXT)
+    it('converted document with metadata should match expected one', function () {
+        const document = convertMarkdownToHTML(MARKDOWN_METADATA + MARKDOWN_TEXT)
         expect(document.content).to.equal(EXPECTED_CONTENT)
         expect(document.title).to.equal(EXPECTED_TITLE)
         expect(document.metadata).to.deep.equal(EXPECTED_METADATA)
+    })
+    it('converted document without metadata should match expected one', function () {
+        const document = convertMarkdownToHTML(MARKDOWN_TEXT)
+        expect(document.content).to.equal(EXPECTED_CONTENT)
+        expect(document.title).to.be.an('undefined')
+        expect(document.metadata).to.deep.equal({ generator: 'mkd2pdf' })
     })
 })
 
