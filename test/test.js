@@ -7,7 +7,7 @@ const { expect } = require('chai'),
     tmp = require('tmp'),
     { execFileSync } = require('child_process')
 const {
-    DEFAULT_LANGUAGE, DEFAULT_RENDERER, DEFAULT_TEMPLATE, RENDERERS,
+    DEFAULT_GENERATOR, DEFAULT_LANGUAGE, DEFAULT_RENDERER, DEFAULT_TEMPLATE, RENDERERS,
     convertMarkdownToHTML, getRenderer, main, parseArgs,
 } = require('../index')
 
@@ -78,8 +78,8 @@ describe('convertMarkdownToHTML', function () {
         'consectetuer adipiscing elit\n'
     const EXPECTED_CONTENT = '<h1 id="dolor-sit-ameta">Dolor sit ameta</h1>\n<p>consectetuer adipiscing elit</p>'
     const EXPECTED_TITLE = 'lorem'
-    const EXPECTED_METADATA = { description: 'ipsum', generator: 'mkd2pdf' }
-    const EXPECTED_DEFAULT_METADATA = { generator: 'mkd2pdf' }
+    const EXPECTED_METADATA = { description: 'ipsum', generator: DEFAULT_GENERATOR }
+    const EXPECTED_DEFAULT_METADATA = { generator: DEFAULT_GENERATOR }
     it('converted document with metadata should match expected one', function () {
         const document = convertMarkdownToHTML(MARKDOWN_METADATA + MARKDOWN_TEXT)
         expect(document.content).to.equal(EXPECTED_CONTENT)

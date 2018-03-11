@@ -6,7 +6,8 @@ const ejs = require('ejs'),
     showdown = require('showdown'),
     tmp = require('tmp'),
     yargs = require('yargs'),
-    { promisify } = require('util')
+    { promisify } = require('util'),
+    { version } = require('./package.json')
 
 tmp.setGracefulCleanup()
 
@@ -17,6 +18,7 @@ const RENDERERS = ['chrome', 'prince', 'weasyprint']
 const DEFAULT_RENDERER = 'chrome'
 const DEFAULT_TEMPLATE = path.join(__dirname, 'default.html.ejs')
 const DEFAULT_LANGUAGE = 'en'
+const DEFAULT_GENERATOR = `mkd2pdf ${version} (https://github.com/ivoronin/mkd2pdf/)`
 
 /**
  * Parses command line arguments
@@ -83,7 +85,7 @@ function getMarkdownMetadata (converter) {
         delete metadata.title
     }
     if (!hasKey(metadata, 'generator')) {
-        metadata.generator = 'mkd2pdf'
+        metadata.generator = DEFAULT_GENERATOR
     }
     return { metadata, title }
 }
@@ -136,6 +138,7 @@ if (require.main === module) {
 } else {
     /* Export functions for testing purposes */
     module.exports = {
+        DEFAULT_GENERATOR,
         DEFAULT_LANGUAGE,
         DEFAULT_RENDERER,
         DEFAULT_TEMPLATE,
