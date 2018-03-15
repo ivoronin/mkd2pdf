@@ -115,6 +115,7 @@ async function main (args) {
     const html = await promisify(ejs.renderFile)(argv.template, {
         content: document.content,
         custom_css_path: argv.css, // eslint-disable-line camelcase
+        basedir: __dirname,
         language: argv.language,
         metadata: document.metadata,
         renderer_css: renderer.css, // eslint-disable-line camelcase
