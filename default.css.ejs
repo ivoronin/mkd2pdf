@@ -1,10 +1,17 @@
 @import "<%- basedir -%>/node_modules/normalize.css/normalize.css";
 @import "<%- basedir -%>/node_modules/github-markdown-css/github-markdown.css";
-@import "<%- basedir -%>/fonts/fonts.css";
+@import "<%- basedir -%>/fonts/merriweather.css";
+@import "<%- basedir -%>/fonts/roboto_mono.css";
 
 .markdown-body {
-    font-family: 'Merriweather', serif;
+    font-family: 'Merriweather';
     hyphens: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+    font-family: 'Roboto Mono';
 }
 
 @page {

@@ -106,7 +106,7 @@ describe('main', function () {
                 main(['-r', renderer, './example/example.md', output]).
                     then(() => done(), (err) => done(err))
             })
-            const EXPECTED_SIZE = 40960
+            const EXPECTED_SIZE = 39936
             const DELTA = 5120
             it(`generated pdf documents should be between ${EXPECTED_SIZE}±${DELTA} bytes in size`, function () {
                 const stats = fs.statSync(output)

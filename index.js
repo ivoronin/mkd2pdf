@@ -113,9 +113,9 @@ async function main (args) {
     const markdown = fs.readFileSync(argv.input, 'utf-8')
     const document = convertMarkdownToHTML(markdown)
     const html = await promisify(ejs.renderFile)(argv.template, {
+        basedir: __dirname,
         content: document.content,
         custom_css_path: argv.css, // eslint-disable-line camelcase
-        basedir: __dirname,
         language: argv.language,
         metadata: document.metadata,
         renderer_css: renderer.css, // eslint-disable-line camelcase
